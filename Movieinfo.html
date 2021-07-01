@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieInfoR</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+</head>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mt-5 ">Movie info APP</h2>
+        <form id="movieForm" autocomplete="off">
+            <div class="form-group">
+                <label for="Movie">Movie Name</label>
+               <input class="form-control " type="text"  id="movie" placeholder="Movie....">
+                </div>
+                <div class="form-group">
+                   <button class="btn btn-danger btn-block">
+                       Search Movie
+                   </button> 
+                </div>
+        </form>
+        <div id="result"></div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script> 
+
+<script>
+    $(document).ready(function()
+    {
+        var apikey = "c53a5741";
+    $("#movieForm").submit(function(event){
+        event.preventDefault()
+        var movie = $ ("#movie").val()
+
+        var result = ""
+        var url = "http://www.omdbapi.com/?apikey="+apikey 
+       
+        $.ajax({
+            method: 'GET',
+            url:url+"&t="+movie,
+            success:function(data){
+                console.log(data);
+
+                result = `   
+                <div class="row">
+                <div class="col-md-4">
+                <h2>${data.Title}</h2><br/><br/>             
+                <img src="${data.Poster}" class="thumbnail">
+                </div>
+                <br/><br/>
+                <div class="col-md-8">
+                <h2>${data.Title}</h2>
+                <ul class="list-group">
+                <li class="list-group-item"><strong>Poster:</strong><li>${data.Poster}</li><br/>
+                <li class="list-group-item"><strong>Plot:</strong><li>${data.Plot}</li><br/>
+                <li class="list-group-item"><strong>Genre:</strong><li>${data.Genre}</li><br/>
+                <li class="list-group-item"><strong>Director:</strong><li>${data.Director}</li><br/>
+                <li class="list-group-item"><strong>Actors:</strong><li>${data.Actors}</li><br/>
+                <hr>
+            <a href="http://imdb.com/title/${data.imdbID}" target="_blank" class="btn btn-danger">View IMDB</a>
+            <a href="index.html" class="btn btn-default">Go Back To Search</a>
+                `;
+                $("#result").html(result);  
+                
+                
+            },
+        })
+      
+    })
+    })
+   
+</script>
+</html>
